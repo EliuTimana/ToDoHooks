@@ -1,25 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { Task } from './models/models';
+import { TaskRow } from './components/TaskRow';
+import './App.scss';
+import { TaskBanner } from './components/TaskBanner';
+import { TaskCreator } from './components/TaskCreator';
 
-function App() {
+export const App = () => {
+  const [tasks, setTasks] = useState<Task[]>([
+    {id: 1, description: 'qwerty', done: false},
+    {id: 2, description: 'qwerty2', done: true},
+  ]);
+  const [showCompleted, setShowCompleted] = useState(true);
+
+  const toggleTask = (task: Task) => {
+    setTasks(tasks.map(t => t.id === task.id ? {...t, done: !t.done} : t));
+  }
+
+  const taskRows = () => {
+    return tasks
+        .filter(t => showCompleted ? t : !t.done)
+        .map(t => (<TaskRow key={t.id} task={t} onToggleTask={toggleTask} onDeleteItem={deleteTask}/>));
+  }
+
+  const createTask = (text: string) => {
+    const newId = Math.max(...tasks.map(t => t.id)) + 1;
+    const newTask: Task = {
+      id: newId,
+      description: text,
+      done: false
+    };
+    setTasks([...tasks, newTask]);
+  }
+
+  const deleteTask = (task: Task) => {
+    const index = tasks.findIndex(t => t.id === task.id);
+    const data = [...tasks];
+    data.splice(index, 1);
+    setTasks(data);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <>
+        <TaskBanner tasks={tasks}/>
+        <div className="container">
+          <TaskCreator onCreate={createTask} onToggleShow={() => setShowCompleted(!showCompleted)}/>
+          <ul className="list-group">{taskRows()}</ul>
+        </div>
+      </>
   );
 }
 
