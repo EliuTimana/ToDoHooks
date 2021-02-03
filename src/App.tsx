@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Task } from './models/models';
 import { TaskRow } from './components/TaskRow';
 import './App.scss';
@@ -38,6 +38,10 @@ export const App = () => {
     data.splice(index, 1);
     setTasks(data);
   }
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
   return (
       <>
