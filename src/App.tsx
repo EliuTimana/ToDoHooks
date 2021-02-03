@@ -6,10 +6,7 @@ import { TaskBanner } from './components/TaskBanner';
 import { TaskCreator } from './components/TaskCreator';
 
 export const App = () => {
-  const [tasks, setTasks] = useState<Task[]>([
-    {id: 1, description: 'qwerty', done: false},
-    {id: 2, description: 'qwerty2', done: true},
-  ]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [showCompleted, setShowCompleted] = useState(true);
 
   const toggleTask = (task: Task) => {
@@ -38,6 +35,18 @@ export const App = () => {
     data.splice(index, 1);
     setTasks(data);
   }
+
+  useEffect(() => {
+    const savedItems = localStorage.getItem('tasks');
+    if (savedItems) {
+      setTasks(JSON.parse(savedItems));
+    } else {
+      setTasks([
+        {id: 1, description: 'Task 1', done: false},
+        {id: 2, description: 'Task 2', done: true}
+      ]);
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));

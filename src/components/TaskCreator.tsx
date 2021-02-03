@@ -29,6 +29,7 @@ export const TaskCreator = ({onCreate, onToggleShow}: Props) => {
       <div className='input-group my-3'>
         <input type="text"
                className="form-control"
+               placeholder="Write a task and press ENTER"
                value={text}
                onKeyUp={(e) => onKeyUp(e.key)}
                onChange={(e) => setText(e.target.value)}/>
