@@ -23,7 +23,7 @@ export const App = () => {
   }
 
   const createTask = (text: string) => {
-    const newId = Math.max(...tasks.map(t => t.id)) + 1;
+    const newId = tasks.length === 0 ? 1 : Math.max(...tasks.map(t => t.id)) + 1;
     const newTask: Task = {
       id: newId,
       description: text,
