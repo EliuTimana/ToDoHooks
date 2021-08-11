@@ -15,13 +15,13 @@ export const App = () => {
   };
 
   return (
-    <div style={{ ...ctx.theme, ...{ height: '100vh' } }}>
+    <div style={{ ...ctx.theme, ...{ height: '100%', overflow: 'auto' } }}>
       <TaskBanner />
       <div className="container">
         <TaskCreator onToggleShow={() => setShowCompleted(!showCompleted)} />
         <ul className="list-group mb-2">{taskRows()}</ul>
 
-        <div className="d-flex justify-content-end">
+        <div className="d-flex justify-content-end mb-3">
           <ThemeToggler />
         </div>
       </div>

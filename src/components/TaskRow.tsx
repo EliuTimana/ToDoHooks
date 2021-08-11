@@ -14,6 +14,10 @@ export const TaskRow = ({ task }: Props) => {
         'list-group-item d-flex justify-content-between align-items-center' +
         (task.done ? ' list-group-item-secondary' : '')
       }
+      style={{
+        backgroundColor: context.isDark ? '#343a40' : 'white',
+        color: context.isDark ? 'white' : '#41464b',
+      }}
     >
       <div>
         <input
