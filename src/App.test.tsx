@@ -1,10 +1,12 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import App from "./App";
 
-test('renders app', () => {
+test("renders app", () => {
   render(<App />);
-  const inputElement = screen.getByPlaceholderText(/Write a task and press ENTER/i);
+  const inputElement = screen.getByPlaceholderText(
+    /Write a task and press ENTER/i
+  );
   const checkbox = screen.getByLabelText(/Show completed items/i);
   const banner = screen.getByText(/^Tasks App/i);
 
