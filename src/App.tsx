@@ -17,7 +17,7 @@ export const App = () => {
   };
 
   const taskRows = () => {
-    return tasks
+    return ctx.tasks
       .filter((t) => (showCompleted ? t : !t.done))
       .map((t) => <TaskRow key={t.id} task={t} onToggleTask={toggleTask} onDeleteItem={deleteTask} />);
   };

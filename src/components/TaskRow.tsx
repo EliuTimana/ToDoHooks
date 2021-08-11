@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import { ToDoContext } from '../context/ToDoContext';
 import { Task } from '../models/models';
 
 interface Props {
@@ -9,6 +11,7 @@ interface Props {
 }
 
 export const TaskRow = ({ task, onToggleTask, onDeleteItem }: Props) => {
+  const context = useContext(ToDoContext);
   return (
     <li
       className={
@@ -20,12 +23,12 @@ export const TaskRow = ({ task, onToggleTask, onDeleteItem }: Props) => {
         <input
           className="form-check-input me-1"
           type="checkbox"
-          onChange={() => onToggleTask(task)}
+          onChange={() => context.toggleTask(task)}
           checked={task.done}
         />
         <span className={task.done ? ' text-decoration-line-through' : ''}>{task.description}</span>
       </div>
-      <button type="button" onClick={() => onDeleteItem(task)} className="btn btn-danger btn-sm">
+      <button type="button" onClick={() => context.deleteTask(task)} className="btn btn-danger btn-sm">
         X
       </button>
     </li>

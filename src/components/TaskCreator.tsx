@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { ToDoContext } from '../context/ToDoContext';
 
 interface Props {
   onCreate(text: string): void;
@@ -7,6 +8,7 @@ interface Props {
 }
 
 export const TaskCreator = ({ onCreate, onToggleShow }: Props) => {
+  const context = useContext(ToDoContext);
   const [text, setText] = useState('');
   const [show, setShow] = useState(true);
 
@@ -14,7 +16,7 @@ export const TaskCreator = ({ onCreate, onToggleShow }: Props) => {
     if (key.toLowerCase() === 'enter') {
       const trimmedText = text.trim();
       if (trimmedText) {
-        onCreate(trimmedText);
+        context.addTask(trimmedText);
         setText('');
       }
     }
