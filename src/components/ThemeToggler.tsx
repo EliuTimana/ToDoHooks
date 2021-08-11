@@ -1,5 +1,5 @@
-import { Component, ContextType } from "react";
-import { ToDoContext, ToDoContextType } from "../context/ToDoContext";
+import { Component, ContextType } from 'react';
+import { ToDoContext, ToDoContextType } from '../context/ToDoContext';
 
 export class ThemeToggler extends Component {
   static contextType = ToDoContext;
@@ -9,8 +9,8 @@ export class ThemeToggler extends Component {
     return (
       <ToDoContext.Consumer>
         {(context) => (
-          <button className={"btn btn-light"} onClick={context.changeColor}>
-            {context.isDark ? "Light" : "Dark"}
+          <button className={'btn btn-light'} onClick={context.changeColor}>
+            {context.isDark ? 'Light' : 'Dark'}
           </button>
         )}
       </ToDoContext.Consumer>

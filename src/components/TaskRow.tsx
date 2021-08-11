@@ -1,4 +1,4 @@
-import { Task } from "../models/models";
+import { Task } from '../models/models';
 
 interface Props {
   task: Task;
@@ -12,8 +12,8 @@ export const TaskRow = ({ task, onToggleTask, onDeleteItem }: Props) => {
   return (
     <li
       className={
-        "list-group-item d-flex justify-content-between align-items-center" +
-        (task.done ? " list-group-item-secondary" : "")
+        'list-group-item d-flex justify-content-between align-items-center' +
+        (task.done ? ' list-group-item-secondary' : '')
       }
     >
       <div>
@@ -23,15 +23,9 @@ export const TaskRow = ({ task, onToggleTask, onDeleteItem }: Props) => {
           onChange={() => onToggleTask(task)}
           checked={task.done}
         />
-        <span className={task.done ? " text-decoration-line-through" : ""}>
-          {task.description}
-        </span>
+        <span className={task.done ? ' text-decoration-line-through' : ''}>{task.description}</span>
       </div>
-      <button
-        type="button"
-        onClick={() => onDeleteItem(task)}
-        className="btn btn-danger btn-sm"
-      >
+      <button type="button" onClick={() => onDeleteItem(task)} className="btn btn-danger btn-sm">
         X
       </button>
     </li>

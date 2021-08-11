@@ -1,4 +1,4 @@
-import React, { Component, createContext } from "react";
+import React, { Component, createContext } from 'react';
 
 export type ToDoContextType = {
   theme: any;
@@ -22,8 +22,8 @@ export class ToDoContextProvider extends Component<any, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      dark: { backgroundColor: "grey", color: "white" },
-      light: { backgroundColor: "white", color: "black" },
+      dark: { backgroundColor: 'grey', color: 'white' },
+      light: { backgroundColor: 'white', color: 'black' },
       isDark: false,
     };
   }
@@ -37,9 +37,7 @@ export class ToDoContextProvider extends Component<any, State> {
   render() {
     const theme = this.state.isDark ? this.state.dark : this.state.light;
     return (
-      <ToDoContext.Provider
-        value={{ ...this.state, theme, changeColor: this.changeColor }}
-      >
+      <ToDoContext.Provider value={{ ...this.state, theme, changeColor: this.changeColor }}>
         {this.props.children}
       </ToDoContext.Provider>
     );

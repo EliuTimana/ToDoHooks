@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 interface Props {
   onCreate(text: string): void;
@@ -7,15 +7,15 @@ interface Props {
 }
 
 export const TaskCreator = ({ onCreate, onToggleShow }: Props) => {
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [show, setShow] = useState(true);
 
   const onKeyUp = (key: string) => {
-    if (key.toLowerCase() === "enter") {
+    if (key.toLowerCase() === 'enter') {
       const trimmedText = text.trim();
       if (trimmedText) {
         onCreate(trimmedText);
-        setText("");
+        setText('');
       }
     }
   };
