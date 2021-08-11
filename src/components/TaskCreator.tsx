@@ -2,12 +2,10 @@ import { useContext, useState } from 'react';
 import { ToDoContext } from '../context/ToDoContext';
 
 interface Props {
-  onCreate(text: string): void;
-
   onToggleShow(show: boolean): void;
 }
 
-export const TaskCreator = ({ onCreate, onToggleShow }: Props) => {
+export const TaskCreator = ({ onToggleShow }: Props) => {
   const context = useContext(ToDoContext);
   const [text, setText] = useState('');
   const [show, setShow] = useState(true);

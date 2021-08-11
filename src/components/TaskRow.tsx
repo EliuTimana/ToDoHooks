@@ -4,13 +4,9 @@ import { Task } from '../models/models';
 
 interface Props {
   task: Task;
-
-  onToggleTask(task: Task): void;
-
-  onDeleteItem(task: Task): void;
 }
 
-export const TaskRow = ({ task, onToggleTask, onDeleteItem }: Props) => {
+export const TaskRow = ({ task }: Props) => {
   const context = useContext(ToDoContext);
   return (
     <li
