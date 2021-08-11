@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Task } from './models/models';
-import { TaskRow } from './components/TaskRow';
+import React, { useContext, useEffect, useState } from 'react';
 import './App.scss';
 import { TaskBanner } from './components/TaskBanner';
 import { TaskCreator } from './components/TaskCreator';
+import { TaskRow } from './components/TaskRow';
+import { ThemeToggler } from './components/ThemeToggler';
+import { ToDoContext } from './context/ToDoContext';
+import { Task } from './models/models';
 
 export const App = () => {
+  const ctx = useContext(ToDoContext)
   const [tasks, setTasks] = useState<Task[]>([]);
   const [showCompleted, setShowCompleted] = useState(true);
 
   const toggleTask = (task: Task) => {
-    setTasks(tasks.map(t => t.id === task.id ? {...t, done: !t.done} : t));
+    setTasks(tasks.map(t => t.id === task.id ? { ...t, done: !t.done } : t));
   }
 
   const taskRows = () => {
     return tasks
-        .filter(t => showCompleted ? t : !t.done)
-        .map(t => (<TaskRow key={t.id} task={t} onToggleTask={toggleTask} onDeleteItem={deleteTask}/>));
+      .filter(t => showCompleted ? t : !t.done)
+      .map(t => (<TaskRow key={t.id} task={t} onToggleTask={toggleTask} onDeleteItem={deleteTask} />));
   }
 
   const createTask = (text: string) => {
@@ -42,8 +45,8 @@ export const App = () => {
       setTasks(JSON.parse(savedItems));
     } else {
       setTasks([
-        {id: 1, description: 'Task 1', done: false},
-        {id: 2, description: 'Task 2', done: true}
+        { id: 1, description: 'Task 1', done: false },
+        { id: 2, description: 'Task 2', done: true }
       ]);
     }
   }, []);
@@ -53,13 +56,17 @@ export const App = () => {
   }, [tasks]);
 
   return (
-      <>
-        <TaskBanner tasks={tasks}/>
-        <div className="container">
-          <TaskCreator onCreate={createTask} onToggleShow={() => setShowCompleted(!showCompleted)}/>
-          <ul className="list-group">{taskRows()}</ul>
+    <div style={{ ...ctx.theme, ...{ height: '100vh' } }}>
+      <TaskBanner tasks={tasks} />
+      <div className="container">
+        <TaskCreator onCreate={createTask} onToggleShow={() => setShowCompleted(!showCompleted)} />
+        <ul className="list-group mb-2">{taskRows()}</ul>
+
+        <div className="d-flex justify-content-end">
+          <ThemeToggler />
         </div>
-      </>
+      </div>
+    </div>
   );
 }
 
