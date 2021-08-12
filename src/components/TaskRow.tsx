@@ -24,12 +24,8 @@ const StyledLi = styled.li<any>`
 export const TaskRow = ({ task }: Props) => {
   const context = useContext(ToDoContext);
   return (
-    <StyledLi
-      dark={context.isDark}
-      className={'list-group-item' + (task.done ? ' list-group-item-secondary' : '')}
-      onClick={() => context.toggleTask(task)}
-    >
-      <div>
+    <StyledLi dark={context.isDark} className={'list-group-item' + (task.done ? ' list-group-item-secondary' : '')}>
+      <div onClick={() => context.toggleTask(task)}>
         <input
           className="form-check-input me-1"
           type="checkbox"
