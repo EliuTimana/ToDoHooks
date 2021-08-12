@@ -4,21 +4,25 @@ import { Task } from '../models/models';
 export type ToDoContextType = {
   theme: any;
   isDark: boolean;
-  changeColor: () => void;
   tasks: Task[];
+  showCompleted: boolean;
+  changeColor: () => void;
   addTask: (task: string) => void;
   deleteTask: (task: Task) => void;
   toggleTask: (task: Task) => void;
+  toggleCompletedVisibility: () => void;
 };
 
 export const ToDoContext = createContext<ToDoContextType>({
   theme: {},
   isDark: false,
+  tasks: [],
+  showCompleted: true,
   changeColor: () => {},
   addTask: () => {},
   deleteTask: () => {},
   toggleTask: () => {},
-  tasks: [],
+  toggleCompletedVisibility: () => {},
 });
 
 interface State {
@@ -26,6 +30,7 @@ interface State {
   dark: any;
   isDark: boolean;
   tasks: Task[];
+  showCompleted: boolean;
 }
 
 export class ToDoContextProvider extends Component<any, State> {
@@ -46,6 +51,7 @@ export class ToDoContextProvider extends Component<any, State> {
       light: { backgroundColor: 'white', color: 'black' },
       isDark: false,
       tasks: localTasks,
+      showCompleted: true,
     };
   }
 
@@ -95,6 +101,12 @@ export class ToDoContextProvider extends Component<any, State> {
     );
   };
 
+  toggleCompletedVisibility = () => {
+    this.setState({
+      showCompleted: !this.state.showCompleted,
+    });
+  };
+
   saveLocalTasks = () => {
     localStorage.setItem('tasks', JSON.stringify(this.state.tasks));
   };
@@ -110,6 +122,7 @@ export class ToDoContextProvider extends Component<any, State> {
           addTask: this.addTask,
           deleteTask: this.deleteTask,
           toggleTask: this.toggleTask,
+          toggleCompletedVisibility: this.toggleCompletedVisibility,
         }}
       >
         {this.props.children}
