@@ -1,5 +1,8 @@
+// @ts-ignore
+import preset from '@rebass/preset';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ThemeProvider } from 'styled-components';
 import App from './App';
 import { ToDoContextProvider } from './context/ToDoContext';
 import './index.css';
@@ -8,7 +11,9 @@ import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
   <React.StrictMode>
     <ToDoContextProvider>
-      <App />
+      <ThemeProvider theme={{ ...preset, colors: { primary: '#2196f3', success: '#4caf50' } }}>
+        <App />
+      </ThemeProvider>
     </ToDoContextProvider>
   </React.StrictMode>,
   document.getElementById('root')

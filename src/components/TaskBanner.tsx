@@ -1,21 +1,31 @@
-import { useContext } from 'react';
-import styled from 'styled-components';
+import React, { useContext } from 'react';
+import { Flex, FlexProps, Heading } from 'rebass/styled-components';
 import { ToDoContext } from '../context/ToDoContext';
-const H4 = styled.h4<{ completed: boolean }>`
-  box-sizing: border-box;
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  line-height: 1.2;
-  font-size: calc(1.275rem + 0.3vw);
-  padding: 1.5rem !important;
-  text-align: center !important;
-  color: #fff !important;
-  transition: background-color 0.25s;
-  background-color: ${(props) => (props.completed ? '#198754' : '#0d6efd')};
-`;
+
+interface Props extends FlexProps {
+  done: boolean;
+}
+
+const Container = (props: Props) => (
+  <Flex
+    {...props}
+    py={4}
+    justifyContent={'center'}
+    sx={{
+      backgroundColor: props.done ? 'success' : 'primary',
+      transition: 'background-color 0.25s',
+    }}
+  />
+);
+
 export const TaskBanner = () => {
   const context = useContext(ToDoContext);
-  const todos = context.tasks.filter((t) => !t.done).length;
-  return <H4 completed={todos === 0}>Tasks App ({todos} tasks to do)</H4>;
+  const completedTodos = context.tasks.filter((t) => !t.done).length;
+  return (
+    <Container done={completedTodos === 0}>
+      <Heading color={'white'} as={'h4'}>
+        Tasks App ({completedTodos} tasks to do)
+      </Heading>
+    </Container>
+  );
 };
