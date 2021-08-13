@@ -1,4 +1,5 @@
 import { Component, ContextType } from 'react';
+import { Button } from 'rebass/styled-components';
 import { ToDoContext } from '../context/ToDoContext';
 
 export class ThemeToggler extends Component {
@@ -9,9 +10,9 @@ export class ThemeToggler extends Component {
     return (
       <ToDoContext.Consumer>
         {(context) => (
-          <button className={'btn btn-light'} onClick={context.changeColor}>
+          <Button color={'white'} onClick={context.changeColor}>
             {context.isDark ? 'Light' : 'Dark'}
-          </button>
+          </Button>
         )}
       </ToDoContext.Consumer>
     );
