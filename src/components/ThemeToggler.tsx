@@ -1,5 +1,5 @@
 import { Component, ContextType } from 'react';
-import { ToDoContext, ToDoContextType } from '../context/ToDoContext';
+import { ToDoContext } from '../context/ToDoContext';
 
 export class ThemeToggler extends Component {
   static contextType = ToDoContext;
