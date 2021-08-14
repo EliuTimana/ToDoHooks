@@ -8,10 +8,31 @@ import { ToDoContextProvider } from './context/ToDoContext';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
+export const theme = {
+  ...preset,
+  ...{
+    colors: {
+      ...preset.colors,
+      primary: '#2196f3',
+      success: '#4caf50',
+      danger: '#f44336',
+    },
+    buttons: {
+      ...preset.buttons,
+      danger: {
+        color: 'white',
+        bg: 'danger',
+      },
+    },
+  },
+};
+
+console.log(theme);
+
 ReactDOM.render(
   <React.StrictMode>
     <ToDoContextProvider>
-      <ThemeProvider theme={{ ...preset, colors: { primary: '#2196f3', success: '#4caf50', danger: '#f44336' } }}>
+      <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
     </ToDoContextProvider>
