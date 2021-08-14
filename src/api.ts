@@ -1,6 +1,6 @@
 import { Task } from './models/models';
 const apiUrl = `http://localhost:4000`;
-const useServer = true;
+const useServer = true; //typeof window === 'undefined';
 
 const delay = () => {
   return (Math.random() * 2 + 1) * 1000;
