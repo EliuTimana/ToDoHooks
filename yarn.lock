@@ -2138,7 +2138,7 @@
     "@types/prop-types" "*"
     csstype "^3.0.2"
 
-"@types/rebass@^4.0.9":
+"@types/rebass@*", "@types/rebass@^4.0.9":
   version "4.0.9"
   resolved "https://registry.yarnpkg.com/@types/rebass/-/rebass-4.0.9.tgz#526b6e2ceab2b7e76e45cbeed264e250118b8036"
   integrity sha512-1GN4RF4vPpM/PTjodmqgG3rMbx+RAYqv/c6DQSmtjC6CPjpl/EPZRFh2NBkl7/2/AVeTQtWvcC609Ly6xmOVEw==
@@ -2147,6 +2147,15 @@
     "@types/styled-components" "*"
     "@types/styled-system" "*"
     "@types/styled-system__css" "*"
+
+"@types/rebass__forms@^4.0.5":
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/@types/rebass__forms/-/rebass__forms-4.0.5.tgz#e01e307109251adee955a66cf7301bc64b40c440"
+  integrity sha512-EeNt4FJn2nk6xUQSMoWnNv7UWK3GsQA4ZHc2lvntamF3+ri2eJ5YTuKYl9Hd/PHYpCQDzRlwKOEM5SHC28FAbg==
+  dependencies:
+    "@types/react" "*"
+    "@types/rebass" "*"
+    "@types/styled-system" "*"
 
 "@types/resolve@0.0.8":
   version "0.0.8"
