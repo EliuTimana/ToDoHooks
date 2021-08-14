@@ -20,7 +20,7 @@ const StyledUl = styled.ul`
 const Container = (props: any) => <Box {...props} height={'100%'} overflow={'auto'} />;
 
 export const App = () => {
-  const { isLoading, data } = useQuery('listTask', getTasks);
+  const { isLoading, data } = useQuery('listTasks', getTasks, { staleTime: 60 * 1000 });
   const ctx = useContext(ToDoContext);
 
   if (isLoading) {

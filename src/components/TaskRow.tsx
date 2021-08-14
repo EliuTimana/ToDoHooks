@@ -1,8 +1,10 @@
 import { Checkbox, Label } from '@rebass/forms';
-import { darken } from 'polished';
+import { darken, lighten } from 'polished';
 import { useContext } from 'react';
-import { Button, Text } from 'rebass/styled-components';
+import { useMutation, useQueryClient } from 'react-query';
+import { Button, ButtonProps, Text } from 'rebass/styled-components';
 import { useTheme } from 'styled-components';
+import { deleteTask, toggleTask } from '../api';
 import { ToDoContext } from '../context/ToDoContext';
 import { Task } from '../models/models';
 
@@ -42,7 +44,7 @@ const StyledLi = (props: any) => (
   />
 );
 
-const DeleteButton = (props: any) => {
+const DeleteButton = (props: ButtonProps) => {
   const theme = useTheme() as any;
   return (
     <Button
@@ -52,10 +54,11 @@ const DeleteButton = (props: any) => {
       minHeight={35}
       mr={3}
       sx={{
-        cursor: 'pointer',
+        cursor: props.disabled ? 'not-allowed' : 'pointer',
         borderRadius: '50%',
+        backgroundColor: props.disabled ? lighten(0.07, theme.colors.danger) : 'danger',
         '&:hover': {
-          backgroundColor: darken(0.07, theme.colors.danger),
+          backgroundColor: props.disabled ? lighten(0.07, theme.colors.danger) : darken(0.07, theme.colors.danger),
         },
       }}
       p={0}
@@ -66,18 +69,34 @@ const DeleteButton = (props: any) => {
 
 export const TaskRow = ({ task }: Props) => {
   const context = useContext(ToDoContext);
+  const queryClient = useQueryClient();
+  const invalidate = () => queryClient.invalidateQueries('listTasks');
+  const { mutate: deleteMutation, isLoading: isDeleting } = useMutation((taskId: number) => deleteTask(taskId), {
+    onSuccess: invalidate,
+  });
+  const { mutate: toggleMutation, isLoading: isToggling } = useMutation((taskId: number) => toggleTask(taskId), {
+    onSuccess: invalidate,
+  });
+
   return (
     <StyledLi dark={context.isDark}>
       <Label px={3} py={3} sx={{ textDecorationLine: task.done ? 'line-through' : 'none', cursor: 'pointer' }}>
         <Checkbox
           id={'chk' + task.id}
           name={'chk' + task.id}
-          onChange={() => context.toggleTask(task)}
+          onChange={() => toggleMutation(task.id)}
           checked={task.done}
+          disabled={isToggling || isDeleting}
         />
         {task.description}
       </Label>
-      <DeleteButton type="button" onClick={() => context.deleteTask(task)}>
+      <DeleteButton
+        type="button"
+        onClick={() => {
+          deleteMutation(task.id);
+        }}
+        disabled={isDeleting || isToggling}
+      >
         &times;
       </DeleteButton>
     </StyledLi>
