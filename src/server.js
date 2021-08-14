@@ -11,6 +11,12 @@ app.use(cors());
  * @type {{id: number, description: string, done: boolean}[]} tasks
  * */
 const tasks = [];
+/**
+ * @param msg string
+ * */
+const errorMessage = (msg) => {
+  return { message: msg };
+};
 
 app.get('/tasks', (req, res) => {
   res.json(tasks);
@@ -20,7 +26,7 @@ app.post('/tasks', (req, res) => {
   const { description } = req.body;
 
   if (tasks.some((x) => x.description.trim().toLowerCase() === description.trim().toLowerCase() && !x.done)) {
-    res.status(400).send(`Task '${description}' already exists`);
+    res.status(400).json(errorMessage(`Task '${description}' already exists`));
     return;
   }
 
@@ -38,11 +44,11 @@ app.patch('/tasks/:id/toggle', (req, res) => {
   const { id } = req.params;
   const index = tasks.findIndex((t) => t.id === +id);
   if (index === -1) {
-    res.status(404).send();
+    res.status(404).json(errorMessage(`Task with id ${id} does not exists`));
     return;
   }
   tasks[index].done = !tasks[index].done;
-  res.status(204).send();
+  res.status(204).json();
 });
 
 app.delete('/tasks/:id', (req, res) => {
@@ -50,11 +56,11 @@ app.delete('/tasks/:id', (req, res) => {
 
   const index = tasks.findIndex((t) => t.id === +id);
   if (index === -1) {
-    res.status(404).send();
+    res.status(404).json(errorMessage(`Task with id ${id} does not exists`));
     return;
   }
   tasks.splice(index, 1);
-  res.status(204).send();
+  res.status(204).json();
 });
 
 app.listen(port, () => {
