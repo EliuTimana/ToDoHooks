@@ -3,6 +3,7 @@ import preset from '@rebass/preset';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider } from 'styled-components';
 import App from './App';
 import { ToDoContextProvider } from './context/ToDoContext';
@@ -40,6 +41,7 @@ ReactDOM.render(
           <App />
         </ThemeProvider>
       </ToDoContextProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')
