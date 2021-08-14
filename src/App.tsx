@@ -11,6 +11,7 @@ import { ToDoContext } from './context/ToDoContext';
 const StyledUl = styled.ul`
   padding-left: 0;
   border-radius: 0.25rem;
+  margin-top: 0;
 `;
 
 const Container = (props: any) => <Box {...props} height={'100%'} overflow={'auto'} />;

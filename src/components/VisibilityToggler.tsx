@@ -1,4 +1,6 @@
+import { Checkbox, Label } from '@rebass/forms';
 import { useContext, useState } from 'react';
+import { Box } from 'rebass';
 import { ToDoContext } from '../context/ToDoContext';
 
 export const VisibilityToggler = () => {
@@ -10,17 +12,18 @@ export const VisibilityToggler = () => {
   };
 
   return (
-    <div className="form-check">
-      <input
-        type="checkbox"
-        id="chk-show"
-        className="form-check-input"
-        checked={show}
-        onChange={(e) => toggleShow(e.target.checked)}
-      />
-      <label className="form-check-label" htmlFor="chk-show">
+    <Box display={'inline-block'}>
+      <Label>
+        <Checkbox
+          id="chk-show"
+          name="chk-show"
+          checked={show}
+          color={'blue'}
+          bg={'white'}
+          onChange={(e) => toggleShow(e.target.checked)}
+        />
         Show completed items
-      </label>
-    </div>
+      </Label>
+    </Box>
   );
 };
