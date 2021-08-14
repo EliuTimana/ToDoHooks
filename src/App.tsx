@@ -10,7 +10,6 @@ import { TaskCreator } from './components/TaskCreator';
 import { TaskRow } from './components/TaskRow';
 import { ThemeToggler } from './components/ThemeToggler';
 import { ToDoContext } from './context/ToDoContext';
-import { Task } from './models/models';
 
 const StyledUl = styled.ul`
   padding-left: 0;
@@ -21,7 +20,7 @@ const StyledUl = styled.ul`
 const Container = (props: any) => <Box {...props} height={'100%'} overflow={'auto'} />;
 
 export const App = () => {
-  const { isLoading, data } = useQuery<Task[]>('listTask', getTasks);
+  const { isLoading, data } = useQuery('listTask', getTasks);
   const ctx = useContext(ToDoContext);
 
   if (isLoading) {
@@ -32,9 +31,13 @@ export const App = () => {
     return (data || []).filter((t) => (ctx.showCompleted ? t : !t.done)).map((t) => <TaskRow key={t.id} task={t} />);
   };
 
+  const completedTasks = () => {
+    return (data || []).filter((x) => x.done).length;
+  };
+
   return (
     <Container style={{ ...ctx.theme }}>
-      <TaskBanner />
+      <TaskBanner completedTasks={completedTasks()} />
       <Flex width={['100%', '90%']} flexDirection={'column'} mx={'auto'} p={3}>
         <TaskCreator />
         <StyledUl>{taskRows()}</StyledUl>

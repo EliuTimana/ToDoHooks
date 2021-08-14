@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
-import { Flex, FlexProps, Heading } from 'rebass/styled-components';
-import { ToDoContext } from '../context/ToDoContext';
+import React from 'react';
+import { Flex, Heading } from 'rebass/styled-components';
 
-interface Props extends FlexProps {
-  done: boolean;
-}
+type Props = {
+  completedTasks: number;
+};
 
-const Container = (props: Props) => (
+const Container = (props: any) => (
   <Flex
     {...props}
     py={4}
@@ -18,13 +17,11 @@ const Container = (props: Props) => (
   />
 );
 
-export const TaskBanner = () => {
-  const context = useContext(ToDoContext);
-  const completedTodos = context.tasks.filter((t) => !t.done).length;
+export const TaskBanner = ({ completedTasks }: Props) => {
   return (
-    <Container done={completedTodos === 0}>
+    <Container done={completedTasks === 0}>
       <Heading color={'white'} as={'h4'}>
-        Tasks App ({completedTodos} tasks to do)
+        Tasks App ({completedTasks} tasks to do)
       </Heading>
     </Container>
   );
