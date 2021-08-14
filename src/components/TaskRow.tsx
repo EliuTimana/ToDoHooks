@@ -1,3 +1,4 @@
+import { Checkbox, Label } from '@rebass/forms';
 import { useContext } from 'react';
 import { Button, Text } from 'rebass/styled-components';
 import { ToDoContext } from '../context/ToDoContext';
@@ -41,15 +42,15 @@ export const TaskRow = ({ task }: Props) => {
   const context = useContext(ToDoContext);
   return (
     <StyledLi dark={context.isDark}>
-      <div onClick={() => context.toggleTask(task)}>
-        <input
-          className="form-check-input me-1"
-          type="checkbox"
+      <Label sx={{ textDecorationLine: task.done ? 'line-through' : 'none', cursor: 'pointer' }}>
+        <Checkbox
+          id={'chk' + task.id}
+          name={'chk' + task.id}
           onChange={() => context.toggleTask(task)}
           checked={task.done}
         />
-        <span className={task.done ? ' text-decoration-line-through' : ''}>{task.description}</span>
-      </div>
+        {task.description}
+      </Label>
       <Button type="button" onClick={() => context.deleteTask(task)} bg={'danger'} color={'white'}>
         X
       </Button>
