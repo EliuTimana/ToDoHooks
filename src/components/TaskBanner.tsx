@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, Heading } from 'rebass/styled-components';
 
 type Props = {
-  completedTasks: number;
+  uncompletedTasks: number;
 };
 
 const Container = (props: any) => (
@@ -17,11 +17,11 @@ const Container = (props: any) => (
   />
 );
 
-export const TaskBanner = ({ completedTasks }: Props) => {
+export const TaskBanner = ({ uncompletedTasks }: Props) => {
   return (
-    <Container done={completedTasks === 0}>
+    <Container done={uncompletedTasks === 0}>
       <Heading color={'white'} as={'h4'}>
-        Tasks App ({completedTasks} tasks to do)
+        Tasks App ({uncompletedTasks} tasks to do)
       </Heading>
     </Container>
   );

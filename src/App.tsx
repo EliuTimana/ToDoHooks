@@ -31,13 +31,13 @@ export const App = () => {
     return (data || []).filter((t) => (ctx.showCompleted ? t : !t.done)).map((t) => <TaskRow key={t.id} task={t} />);
   };
 
-  const completedTasks = () => {
-    return (data || []).filter((x) => x.done).length;
+  const uncompletedTasks = () => {
+    return (data || []).filter((x) => !x.done).length;
   };
 
   return (
     <Container style={{ ...ctx.theme }}>
-      <TaskBanner completedTasks={completedTasks()} />
+      <TaskBanner uncompletedTasks={uncompletedTasks()} />
       <Flex width={['100%', '90%']} flexDirection={'column'} mx={'auto'} p={3}>
         <TaskCreator />
         <StyledUl>{taskRows()}</StyledUl>
