@@ -1,12 +1,16 @@
 import React, { useContext } from 'react';
+import { useQuery } from 'react-query';
 import { Box, Flex } from 'rebass';
+import { Text } from 'rebass/styled-components';
 import styled from 'styled-components';
+import { getTasks } from './api';
 import './App.scss';
 import { TaskBanner } from './components/TaskBanner';
 import { TaskCreator } from './components/TaskCreator';
 import { TaskRow } from './components/TaskRow';
 import { ThemeToggler } from './components/ThemeToggler';
 import { ToDoContext } from './context/ToDoContext';
+import { Task } from './models/models';
 
 const StyledUl = styled.ul`
   padding-left: 0;
@@ -17,10 +21,15 @@ const StyledUl = styled.ul`
 const Container = (props: any) => <Box {...props} height={'100%'} overflow={'auto'} />;
 
 export const App = () => {
+  const { isLoading, data } = useQuery<Task[]>('listTask', getTasks);
   const ctx = useContext(ToDoContext);
 
+  if (isLoading) {
+    return <Text>Cargando...</Text>;
+  }
+
   const taskRows = () => {
-    return ctx.tasks.filter((t) => (ctx.showCompleted ? t : !t.done)).map((t) => <TaskRow key={t.id} task={t} />);
+    return (data || []).filter((t) => (ctx.showCompleted ? t : !t.done)).map((t) => <TaskRow key={t.id} task={t} />);
   };
 
   return (

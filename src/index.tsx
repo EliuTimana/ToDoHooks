@@ -2,6 +2,7 @@
 import preset from '@rebass/preset';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { ThemeProvider } from 'styled-components';
 import App from './App';
 import { ToDoContextProvider } from './context/ToDoContext';
@@ -29,13 +30,17 @@ export const theme = {
 
 console.log(theme);
 
+const queryClient = new QueryClient();
+
 ReactDOM.render(
   <React.StrictMode>
-    <ToDoContextProvider>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </ToDoContextProvider>
+    <QueryClientProvider client={queryClient}>
+      <ToDoContextProvider>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </ToDoContextProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
