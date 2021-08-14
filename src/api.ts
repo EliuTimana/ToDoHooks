@@ -1,10 +1,20 @@
 import { Task } from './models/models';
+const apiUrl = `http://localhost:4000`;
+const useServer = true;
 
 const delay = () => {
   return (Math.random() * 2 + 1) * 1000;
 };
 
-export const getTasks = () => {
+export const getTasks = async () => {
+  if (useServer) {
+    const response = await fetch(`${apiUrl}/tasks`);
+    const responseBody = await response.json();
+    if (!response.ok) throw new Error(responseBody);
+
+    return responseBody as Task[];
+  }
+
   return new Promise<Task[]>((resolve, reject) => {
     const savedItems = localStorage.getItem('tasks');
     let localTasks: Task[] = [];
@@ -21,6 +31,17 @@ export const getTasks = () => {
 };
 
 export const addTask = async (task: string) => {
+  if (useServer) {
+    const response = await fetch(`${apiUrl}/tasks`, {
+      body: JSON.stringify({ description: task }),
+      method: 'POST',
+    });
+    const responseBody = await response.json();
+    if (!response.ok) throw new Error(responseBody);
+
+    return;
+  }
+
   return new Promise<Task>(async (resolve, reject) => {
     const tasks = await getTasks();
     const newId = tasks.length === 0 ? 1 : Math.max(...tasks.map((t) => t.id)) + 1;
@@ -35,7 +56,17 @@ export const addTask = async (task: string) => {
   });
 };
 
-export const toggleTask = (taskId: number) => {
+export const toggleTask = async (taskId: number) => {
+  if (useServer) {
+    const response = await fetch(`${apiUrl}/tasks/${taskId}/toggle`, {
+      method: 'PATCH',
+    });
+    const responseBody = await response.json();
+    if (!response.ok) throw new Error(responseBody);
+
+    return;
+  }
+
   return new Promise<void>(async (resolve, reject) => {
     const tasks = await getTasks();
     tasks.map((t) => (t.id === taskId ? { ...t, done: !t.done } : t));
@@ -44,7 +75,17 @@ export const toggleTask = (taskId: number) => {
   });
 };
 
-export const deleteTask = (taskId: number) => {
+export const deleteTask = async (taskId: number) => {
+  if (useServer) {
+    const response = await fetch(`${apiUrl}/tasks/${taskId}`, {
+      method: 'DELETE',
+    });
+    const responseBody = await response.json();
+    if (!response.ok) throw new Error(responseBody);
+
+    return;
+  }
+
   return new Promise<void>(async (resolve, reject) => {
     const tasks = await getTasks();
     saveLocalTasks(tasks.filter((t) => t.id !== taskId));
