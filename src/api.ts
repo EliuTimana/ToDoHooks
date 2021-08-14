@@ -39,7 +39,7 @@ export const addTask = async (task: string) => {
         'Content-Type': 'application/json',
       },
     });
-    if (!response.ok) throw new Error(await response.json());
+    if (!response.ok) throw new Error((await response.json()).message);
 
     return (await response.json()) as Task;
   }
@@ -63,7 +63,7 @@ export const toggleTask = async (taskId: number) => {
     const response = await fetch(`${apiUrl}/tasks/${taskId}/toggle`, {
       method: 'PATCH',
     });
-    if (!response.ok) throw new Error(await response.json());
+    if (!response.ok) throw new Error((await response.json()).message);
 
     return;
   }
@@ -81,7 +81,7 @@ export const deleteTask = async (taskId: number) => {
     const response = await fetch(`${apiUrl}/tasks/${taskId}`, {
       method: 'DELETE',
     });
-    if (!response.ok) throw new Error(await response.json());
+    if (!response.ok) throw new Error((await response.json()).message);
 
     return;
   }
