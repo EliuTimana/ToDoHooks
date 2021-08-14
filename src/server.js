@@ -1,11 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const morgan = require('morgan');
+
 const app = express();
 const port = 4000;
 
 app.use(bodyParser.json());
 app.use(cors());
+app.use(morgan('combined'));
 
 /**
  * @type {{id: number, description: string, done: boolean}[]} tasks
