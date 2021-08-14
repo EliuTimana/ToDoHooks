@@ -1,10 +1,18 @@
 import React, { useContext } from 'react';
+import { Box, Flex } from 'rebass';
+import styled from 'styled-components';
 import './App.scss';
 import { TaskBanner } from './components/TaskBanner';
 import { TaskCreator } from './components/TaskCreator';
 import { TaskRow } from './components/TaskRow';
 import { ThemeToggler } from './components/ThemeToggler';
 import { ToDoContext } from './context/ToDoContext';
+
+const StyledUl = styled.ul`
+  padding-left: 0;
+`;
+
+const Container = (props: any) => <Box {...props} height={'100%'} overflow={'auto'} />;
 
 export const App = () => {
   const ctx = useContext(ToDoContext);
@@ -14,17 +22,17 @@ export const App = () => {
   };
 
   return (
-    <div style={{ ...ctx.theme, ...{ height: '100%', overflow: 'auto' } }}>
+    <Container style={{ ...ctx.theme }}>
       <TaskBanner />
-      <div className="container">
+      <Flex width={['100%', '90%']} flexDirection={'column'} mx={'auto'} p={3}>
         <TaskCreator />
-        <ul className="list-group mb-2">{taskRows()}</ul>
+        <StyledUl>{taskRows()}</StyledUl>
 
-        <div className="d-flex justify-content-end mb-3">
+        <Flex justifyContent={'flex-end'} mb={3}>
           <ThemeToggler />
-        </div>
-      </div>
-    </div>
+        </Flex>
+      </Flex>
+    </Container>
   );
 };
 
