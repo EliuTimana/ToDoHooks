@@ -35,9 +35,12 @@ export const addTask = async (task: string) => {
     const response = await fetch(`${apiUrl}/tasks`, {
       body: JSON.stringify({ description: task }),
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     const responseBody = await response.json();
-    if (!response.ok) throw new Error(responseBody);
+    if (!response.ok) throw new Error(responseBody.message);
 
     return;
   }
@@ -62,7 +65,7 @@ export const toggleTask = async (taskId: number) => {
       method: 'PATCH',
     });
     const responseBody = await response.json();
-    if (!response.ok) throw new Error(responseBody);
+    if (!response.ok) throw new Error(responseBody.message);
 
     return;
   }
@@ -81,7 +84,7 @@ export const deleteTask = async (taskId: number) => {
       method: 'DELETE',
     });
     const responseBody = await response.json();
-    if (!response.ok) throw new Error(responseBody);
+    if (!response.ok) throw new Error(responseBody.message);
 
     return;
   }
