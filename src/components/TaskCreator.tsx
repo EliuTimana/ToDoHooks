@@ -1,27 +1,35 @@
 import { Input } from '@rebass/forms';
-import { useContext, useState } from 'react';
+import { useContext, useRef } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { Box } from 'rebass';
+import { Text } from 'rebass/styled-components';
 import { addTask } from '../api';
 import { ToDoContext } from '../context/ToDoContext';
+import { Task } from '../models/models';
 import { VisibilityToggler } from './VisibilityToggler';
 
 export const TaskCreator = () => {
   const context = useContext(ToDoContext);
-  const [text, setText] = useState('');
+  const input = useRef<HTMLInputElement>();
   const queryClient = useQueryClient();
-  const { mutate, isLoading, error } = useMutation('addTask', (text: string) => addTask(text), {
-    onSuccess: () => {
-      queryClient.invalidateQueries('listTasks');
-    },
-  });
+  const { mutate, isLoading, error, isError, reset } = useMutation<Task, any, string>(
+    'addTask',
+    (text) => addTask(text),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('listTasks');
+        input.current!!.value = '';
+        input.current?.focus();
+      },
+    }
+  );
 
   const onKeyUp = (key: string) => {
     if (key.toLowerCase() === 'enter') {
-      const trimmedText = text.trim();
+      const trimmedText = input.current?.value.trim();
       if (trimmedText) {
         mutate(trimmedText);
-        setText('');
+        input.current?.focus();
       }
     }
   };
@@ -35,15 +43,20 @@ export const TaskCreator = () => {
             '::placeholder': {
               color: context.isDark ? 'white' : 'black',
             },
+            borderColor: isError ? 'red' : 'initial',
           }}
           placeholder="Write a task and press ENTER"
-          value={text}
+          ref={input}
           onKeyUp={(e: any) => onKeyUp(e.key)}
-          onChange={(e: any) => setText(e.target.value)}
-          disabled={isLoading}
+          readOnly={isLoading}
+          onBlur={() => reset()}
         />
       </Box>
-      {error && <Box>{error + ''}</Box>}
+      {isError && (
+        <Box pb={2}>
+          <Text color={'danger'}>{error + ''}</Text>
+        </Box>
+      )}
       <Box>
         <VisibilityToggler />
       </Box>
