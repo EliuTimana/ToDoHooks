@@ -11,7 +11,7 @@ import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
   <React.StrictMode>
     <ToDoContextProvider>
-      <ThemeProvider theme={{ ...preset, colors: { primary: '#2196f3', success: '#4caf50' } }}>
+      <ThemeProvider theme={{ ...preset, colors: { primary: '#2196f3', success: '#4caf50', danger: '#f44336' } }}>
         <App />
       </ThemeProvider>
     </ToDoContextProvider>

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import styled from 'styled-components';
+import { Button, Text } from 'rebass/styled-components';
 import { ToDoContext } from '../context/ToDoContext';
 import { Task } from '../models/models';
 
@@ -7,24 +7,40 @@ interface Props {
   task: Task;
 }
 
-const StyledLi = styled.li<any>`
-  background-color: ${(props) => (props.dark ? '#343a40' : 'white')};
-  color: ${(props) => (props.dark ? 'white' : '#41464b')};
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: background-color 0.25s;
-  &:hover {
-    background-color: ${(props) => (props.dark ? '#212529' : '#f5f3f3')};
-  }
-`;
+const StyledLi = (props: any) => (
+  <Text
+    {...props}
+    as={'li'}
+    sx={{
+      cursor: 'pointer',
+      transition: 'background-color 0.15s',
+      ':hover': {
+        backgroundColor: props.dark ? '#212529' : '#f5f3f3',
+      },
+      ':first-child': {
+        borderTopLeftRadius: 'inherit',
+        borderTopRightRadius: 'inherit',
+      },
+      ':last-child': {
+        borderBottomLeftRadius: 'inherit',
+        borderBottomRightRadius: 'inherit',
+      },
+    }}
+    px={2}
+    py={2}
+    bg={props.dark ? '#343a40' : 'white'}
+    color={props.dark ? 'white' : '#41464b'}
+    display={'flex'}
+    justifyContent={'space-between'}
+    alignContent={'center'}
+    alignItems={'center'}
+  />
+);
 
 export const TaskRow = ({ task }: Props) => {
   const context = useContext(ToDoContext);
   return (
-    <StyledLi dark={context.isDark} className={'list-group-item' + (task.done ? ' list-group-item-secondary' : '')}>
+    <StyledLi dark={context.isDark}>
       <div onClick={() => context.toggleTask(task)}>
         <input
           className="form-check-input me-1"
@@ -34,9 +50,9 @@ export const TaskRow = ({ task }: Props) => {
         />
         <span className={task.done ? ' text-decoration-line-through' : ''}>{task.description}</span>
       </div>
-      <button type="button" onClick={() => context.deleteTask(task)} className="btn btn-danger btn-sm">
+      <Button type="button" onClick={() => context.deleteTask(task)} bg={'danger'} color={'white'}>
         X
-      </button>
+      </Button>
     </StyledLi>
   );
 };
