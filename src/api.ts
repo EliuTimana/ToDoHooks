@@ -35,7 +35,7 @@ export const addTask = async (task: string) => {
   });
 };
 
-const toggleTask = (taskId: number) => {
+export const toggleTask = (taskId: number) => {
   return new Promise<void>(async (resolve, reject) => {
     const tasks = await getTasks();
     tasks.map((t) => (t.id === taskId ? { ...t, done: !t.done } : t));
@@ -44,7 +44,7 @@ const toggleTask = (taskId: number) => {
   });
 };
 
-const deleteTask = (taskId: number) => {
+export const deleteTask = (taskId: number) => {
   return new Promise<void>(async (resolve, reject) => {
     const tasks = await getTasks();
     saveLocalTasks(tasks.filter((t) => t.id !== taskId));
