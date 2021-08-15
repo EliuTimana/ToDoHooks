@@ -10,12 +10,18 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(morgan('combined'));
 
+const delay = (f) => {
+  const time = (Math.random() * 2 + 1) * 1000;
+  return setTimeout(f, time);
+};
+
 /**
  * @type {{id: number, description: string, done: boolean}[]} tasks
  * */
 const tasks = [
   { id: 1, description: 'Learn Node.js', done: false },
   { id: 2, description: 'Learn Redux', done: false },
+  { id: 3, description: 'Use Material UI', done: true },
 ];
 
 /**
@@ -26,7 +32,7 @@ const errorMessage = (msg) => {
 };
 
 app.get('/tasks', (req, res) => {
-  res.json(tasks);
+  delay(() => res.json(tasks));
 });
 
 app.post('/tasks', (req, res) => {
@@ -44,7 +50,7 @@ app.post('/tasks', (req, res) => {
     done: false,
   };
   tasks.unshift(newTask);
-  res.status(201).send(newTask);
+  delay(() => res.status(201).send(newTask));
 });
 
 app.patch('/tasks/:id/toggle', (req, res) => {
@@ -55,7 +61,7 @@ app.patch('/tasks/:id/toggle', (req, res) => {
     return;
   }
   tasks[index].done = !tasks[index].done;
-  res.status(204).json();
+  delay(() => res.status(204).json());
 });
 
 app.delete('/tasks/:id', (req, res) => {
@@ -67,7 +73,7 @@ app.delete('/tasks/:id', (req, res) => {
     return;
   }
   tasks.splice(index, 1);
-  res.status(204).json();
+  delay(() => res.status(204).json());
 });
 
 app.listen(port, () => {
