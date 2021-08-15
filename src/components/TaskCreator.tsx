@@ -8,16 +8,13 @@ import {
   OutlinedInput,
 } from '@material-ui/core';
 import { Clear } from '@material-ui/icons';
-import { useContext, useRef } from 'react';
+import { useRef } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { Box } from 'rebass';
 import { addTask } from '../api';
-import { ToDoContext } from '../context/ToDoContext';
 import { Task } from '../models/models';
 import { VisibilityToggler } from './VisibilityToggler';
 
 export const TaskCreator = () => {
-  const context = useContext(ToDoContext);
   const input = useRef<HTMLInputElement>();
   const queryClient = useQueryClient();
   const { mutate, isLoading, error, isError, reset } = useMutation<Task, any, string>(
@@ -73,9 +70,9 @@ export const TaskCreator = () => {
           {error && <FormHelperText>{error + ''}</FormHelperText>}
         </FormControl>
       </Grid>
-      <Box>
+      <Grid item xs={12}>
         <VisibilityToggler />
-      </Box>
+      </Grid>
     </Grid>
   );
 };

@@ -1,6 +1,5 @@
-import { Checkbox, Label } from '@rebass/forms';
+import { Checkbox, FormControlLabel } from '@material-ui/core';
 import { useContext, useState } from 'react';
-import { Box } from 'rebass';
 import { ToDoContext } from '../context/ToDoContext';
 
 export const VisibilityToggler = () => {
@@ -12,18 +11,17 @@ export const VisibilityToggler = () => {
   };
 
   return (
-    <Box display={'inline-block'}>
-      <Label>
+    <FormControlLabel
+      control={
         <Checkbox
           id="chk-show"
           name="chk-show"
           checked={show}
-          color={'blue'}
-          bg={'white'}
           onChange={(e) => toggleShow(e.target.checked)}
+          color={context.isDark ? 'secondary' : 'primary'}
         />
-        Show completed items
-      </Label>
-    </Box>
+      }
+      label={'Show completed items'}
+    />
   );
 };
