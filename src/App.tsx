@@ -1,8 +1,7 @@
+import { LinearProgress, List } from '@material-ui/core';
 import React, { useContext } from 'react';
 import { useQuery } from 'react-query';
 import { Box, Flex } from 'rebass';
-import { Text } from 'rebass/styled-components';
-import styled from 'styled-components';
 import { getTasks } from './api';
 import './App.scss';
 import { TaskBanner } from './components/TaskBanner';
@@ -11,21 +10,19 @@ import { TaskRow } from './components/TaskRow';
 import { ThemeToggler } from './components/ThemeToggler';
 import { ToDoContext } from './context/ToDoContext';
 
-const StyledUl = styled.ul`
-  padding-left: 0;
-  border-radius: 0.25rem;
-  margin-top: 0;
-`;
-
 const Container = (props: any) => <Box {...props} height={'100%'} overflow={'auto'} />;
 
 export const App = () => {
-  const { isLoading, data } = useQuery('listTasks', getTasks, { staleTime: 60 * 1000 });
   const ctx = useContext(ToDoContext);
-
-  if (isLoading) {
-    return <Text>Cargando...</Text>;
-  }
+  const { isLoading, data } = useQuery('listTasks', getTasks, {
+    staleTime: 60 * 1000,
+    onSuccess: () => {
+      ctx.hideLoading();
+    },
+    onError: () => {
+      ctx.hideLoading();
+    },
+  });
 
   const taskRows = () => {
     return (data || []).filter((t) => (ctx.showCompleted ? t : !t.done)).map((t) => <TaskRow key={t.id} task={t} />);
@@ -40,7 +37,11 @@ export const App = () => {
       <TaskBanner uncompletedTasks={uncompletedTasks()} />
       <Flex width={['100%', '90%']} flexDirection={'column'} mx={'auto'} p={3}>
         <TaskCreator />
-        <StyledUl>{taskRows()}</StyledUl>
+        <LinearProgress
+          variant={'indeterminate'}
+          style={{ visibility: ctx.isLoading || isLoading ? 'visible' : 'hidden' }}
+        />
+        <List>{taskRows()}</List>
 
         <Flex justifyContent={'flex-end'} mb={3}>
           <ThemeToggler />

@@ -8,24 +8,32 @@ import {
   OutlinedInput,
 } from '@material-ui/core';
 import { Clear } from '@material-ui/icons';
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { addTask } from '../api';
+import { ToDoContext } from '../context/ToDoContext';
 import { Task } from '../models/models';
 import { VisibilityToggler } from './VisibilityToggler';
 
 export const TaskCreator = () => {
+  const context = useContext(ToDoContext);
   const input = useRef<HTMLInputElement>();
   const queryClient = useQueryClient();
+  const onError = () => {
+    context.hideLoading();
+  };
   const { mutate, isLoading, error, isError, reset } = useMutation<Task, any, string>(
     'addTask',
     (text) => addTask(text),
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries('listTasks');
+      onSuccess: async () => {
+        await queryClient.invalidateQueries('listTasks');
         input.current!!.value = '';
-        input.current?.focus();
+        setTimeout(() => {
+          input.current!!.focus();
+        });
       },
+      onError,
     }
   );
 
@@ -34,6 +42,7 @@ export const TaskCreator = () => {
       const trimmedText = input.current?.value.trim();
       if (trimmedText) {
         mutate(trimmedText);
+        context.showLoading();
         input.current?.focus();
       }
     }
@@ -56,6 +65,8 @@ export const TaskCreator = () => {
             inputRef={input}
             onKeyUp={(e: any) => onKeyUp(e.key)}
             disabled={isLoading}
+            autoComplete={'off'}
+            autoFocus
             endAdornment={
               input.current?.value && (
                 <InputAdornment position={'end'}>
