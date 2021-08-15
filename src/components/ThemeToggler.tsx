@@ -1,5 +1,6 @@
+import { Button } from '@material-ui/core';
+import { Brightness4, Brightness7 } from '@material-ui/icons';
 import { Component, ContextType } from 'react';
-import { Button } from 'rebass/styled-components';
 import { ToDoContext } from '../context/ToDoContext';
 
 export class ThemeToggler extends Component {
@@ -10,8 +11,8 @@ export class ThemeToggler extends Component {
     return (
       <ToDoContext.Consumer>
         {(context) => (
-          <Button color={'white'} onClick={context.changeColor}>
-            {context.isDark ? 'Light' : 'Dark'}
+          <Button onClick={context.changeColor} startIcon={!context.isDark ? <Brightness4 /> : <Brightness7 />}>
+            {!context.isDark ? 'Light' : 'Dark'}
           </Button>
         )}
       </ToDoContext.Consumer>
