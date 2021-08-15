@@ -61,6 +61,7 @@ export const TaskCreator = () => {
           <InputLabel htmlFor="input-create">Write a task and press ENTER</InputLabel>
           <OutlinedInput
             id={'input-create'}
+            inputProps={{ 'data-testid': 'input-create' }}
             type="text"
             inputRef={input}
             onKeyUp={(e: any) => onKeyUp(e.key)}
