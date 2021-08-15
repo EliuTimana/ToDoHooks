@@ -1,8 +1,16 @@
-import { Input } from '@rebass/forms';
+import {
+  FormControl,
+  FormHelperText,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from '@material-ui/core';
+import { Clear } from '@material-ui/icons';
 import { useContext, useRef } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { Box } from 'rebass';
-import { Text } from 'rebass/styled-components';
 import { addTask } from '../api';
 import { ToDoContext } from '../context/ToDoContext';
 import { Task } from '../models/models';
@@ -34,32 +42,40 @@ export const TaskCreator = () => {
     }
   };
 
+  const clearAll = () => {
+    input.current!!.value = '';
+    input.current?.focus();
+    reset();
+  };
+
   return (
-    <Box my={3}>
-      <Box mb={2}>
-        <Input
-          type="text"
-          sx={{
-            '::placeholder': {
-              color: context.isDark ? 'white' : 'black',
-            },
-            borderColor: isError ? 'red' : 'initial',
-          }}
-          placeholder="Write a task and press ENTER"
-          ref={input}
-          onKeyUp={(e: any) => onKeyUp(e.key)}
-          readOnly={isLoading}
-          onBlur={() => reset()}
-        />
-      </Box>
-      {isError && (
-        <Box pb={2}>
-          <Text color={'danger'}>{error + ''}</Text>
-        </Box>
-      )}
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <FormControl error={isError} fullWidth variant={'outlined'}>
+          <InputLabel htmlFor="input-create">Write a task and press ENTER</InputLabel>
+          <OutlinedInput
+            id={'input-create'}
+            type="text"
+            inputRef={input}
+            onKeyUp={(e: any) => onKeyUp(e.key)}
+            disabled={isLoading}
+            endAdornment={
+              input.current?.value && (
+                <InputAdornment position={'end'}>
+                  <IconButton disabled={isLoading} onClick={() => clearAll()}>
+                    <Clear />
+                  </IconButton>
+                </InputAdornment>
+              )
+            }
+            labelWidth={215}
+          />
+          {error && <FormHelperText>{error + ''}</FormHelperText>}
+        </FormControl>
+      </Grid>
       <Box>
         <VisibilityToggler />
       </Box>
-    </Box>
+    </Grid>
   );
 };
